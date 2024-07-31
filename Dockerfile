@@ -3,9 +3,17 @@ FROM gradle:7.4.1-jdk11 AS builder
 
 WORKDIR /app
 
-# Use Docker layer caching to optimize Gradle build time
-COPY build.gradle settings.gradle gradlew gradlew.bat gradle/ ./
+# Copy the Gradle wrapper and build files
+COPY gradle/ gradle/
+COPY gradlew gradlew
+COPY gradlew.bat gradlew.bat
+COPY build.gradle settings.gradle ./
+
+# Copy the source code
 COPY src/ src/
+
+# Ensure the gradlew script is executable
+RUN chmod +x gradlew
 
 # Build the application
 RUN ./gradlew build --no-daemon
