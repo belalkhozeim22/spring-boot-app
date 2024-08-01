@@ -1,0 +1,108 @@
+trigger:
+- dev
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  dockerHubServiceConnection: 'DockerHubConnection'
+  imageRepository: 'your-username/spring-boot-app'
+  dockerfilePath: 'Dockerfile'
+  tag: '$(Build.BuildId)'
+  terraformServiceConnection: 'TerraformServiceConnection'  # Define your service connection for Terraform
+
+stages:
+- stage: Lint
+  jobs:
+  - job: Lint
+    steps:
+    - script: echo "Linting the code..."
+      displayName: 'Linting'
+
+- stage: UnitTest
+  jobs:
+  - job: UnitTest
+    steps:
+    - script: ./gradlew test
+      displayName: 'Running Unit Tests'
+
+- stage: SonarQube
+  jobs:
+  - job: SonarQube
+    steps:
+    - task: SonarQubePrepare@4
+      inputs:
+        SonarQube: 'SonarQube service connection'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'spring-boot-app'
+        cliProjectName: 'spring-boot-app'
+    - script: ./gradlew sonarqube
+      displayName: 'Running SonarQube Analysis'
+
+- stage: BuildImage
+  jobs:
+  - job: BuildImage
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: '$(dockerHubServiceConnection)'
+        repository: '$(imageRepository)'
+        dockerfile: '$(dockerfilePath)'
+        tags: |
+          $(tag)
+          latest
+
+- stage: PushImage
+  jobs:
+  - job: PushImage
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: '$(dockerHubServiceConnection)'
+        repository: '$(imageRepository)'
+        command: 'push'
+        tags: |
+          $(tag)
+          latest
+
+- stage: PullImage
+  jobs:
+  - job: PullImage
+    steps:
+    - script: docker pull $(imageRepository):$(tag)
+      displayName: 'Pulling Docker Image'
+
+- stage: DeployInfrastructure
+  jobs:
+  - job: Terraform
+    steps:
+    - script: |
+        terraform init
+        terraform plan -out=tfplan
+        terraform apply -input=false tfplan
+      displayName: 'Deploying Infrastructure with Terraform'
+      env:
+        GOOGLE_CREDENTIALS: $(serviceConnectionJson) # Use your service connection JSON for authentication
+
+- stage: DeployToDevelopment
+  dependsOn: DeployInfrastructure
+  jobs:
+  - job: DeployToDevelopment
+    steps:
+    - script: |
+        kubectl apply -f k8s/deployment-dev.yaml
+        kubectl apply -f k8s/service.yaml -n development
+        kubectl apply -f k8s/ingress.yaml -n development
+      displayName: 'Deploying to Kubernetes (Development)'
+
+- stage: DeployToProduction
+  dependsOn: DeployInfrastructure
+  jobs:
+  - job: DeployToProduction
+    steps:
+    - script: |
+        kubectl apply -f k8s/deployment-prod.yaml
+        kubectl apply -f k8s/service.yaml -n production
+        kubectl apply -f k8s/ingress.yaml -n production
+      displayName: 'Deploying to Kubernetes (Production)'
