@@ -1,12 +1,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: spring-boot-ingress
+  name: spring-boot-app-ingress
+  namespace: development
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-  - host: spring-boot.local
+  - host: your-app.example.com
     http:
       paths:
       - path: /live
