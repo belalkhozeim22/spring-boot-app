@@ -33,7 +33,7 @@ stages:
   jobs:
   - job: SonarQube
     steps:
-    - task: SonarQubePrepare@4
+    - task: SonarQubePrepare@5  # Ensure you use the installed task version
       inputs:
         SonarQube: 'SonarQube service connection'
         scannerMode: 'CLI'
@@ -42,6 +42,10 @@ stages:
         cliProjectName: 'spring-boot-app'
     - script: ./gradlew sonarqube
       displayName: 'Running SonarQube Analysis'
+    - task: SonarQubePublish@5
+      inputs:
+        pollingTimeoutSec: '300'
+
 
 - stage: BuildImage
   jobs:
