@@ -1,15 +1,18 @@
 trigger:
 - dev
+- main
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  dockerHubServiceConnection: 'DockerHubConnection'
-  imageRepository: 'your-username/spring-boot-app'
-  dockerfilePath: 'Dockerfile'
+  dockerHubServiceConnection: 'dockerhub-connection'
+  imageRepository: 'belalkhozeim22/spring-boot-app-image'
+  dockerfilePath: './Dockerfile'
   tag: '$(Build.BuildId)'
-  terraformServiceConnection: 'TerraformServiceConnection'  # Define your service connection for Terraform
+  terraformServiceConnection: 'gke-connection'  # Service connection for GKE
+  kubernetesServiceConnection: 'gke-connection'  # Same service connection for Kubernetes deployment
+  terraformWorkingDirectory: './infrastructure'
 
 stages:
 - stage: Lint
@@ -83,26 +86,42 @@ stages:
         terraform apply -input=false tfplan
       displayName: 'Deploying Infrastructure with Terraform'
       env:
-        GOOGLE_CREDENTIALS: $(serviceConnectionJson) # Use your service connection JSON for authentication
+        GOOGLE_CREDENTIALS: $(serviceConnectionJson) # Environment variable for GCP credentials
 
 - stage: DeployToDevelopment
   dependsOn: DeployInfrastructure
   jobs:
-  - job: DeployToDevelopment
-    steps:
-    - script: |
-        kubectl apply -f k8s/deployment-dev.yaml
-        kubectl apply -f k8s/service.yaml -n development
-        kubectl apply -f k8s/ingress.yaml -n development
-      displayName: 'Deploying to Kubernetes (Development)'
+  - deployment:
+      displayName: Deploy to GKE (Development)
+      environment: development
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - task: KubernetesManifest@0
+              displayName: Deploy to Kubernetes (Development)
+              inputs:
+                action: deploy
+                kubernetesServiceConnection: $(kubernetesServiceConnection)
+                namespace: development
+                manifests: k8s/deployment-dev.yaml
 
 - stage: DeployToProduction
   dependsOn: DeployInfrastructure
   jobs:
-  - job: DeployToProduction
-    steps:
-    - script: |
-        kubectl apply -f k8s/deployment-prod.yaml
-        kubectl apply -f k8s/service.yaml -n production
-        kubectl apply -f k8s/ingress.yaml -n production
-      displayName: 'Deploying to Kubernetes (Production)'
+  - deployment:
+      displayName: Deploy to GKE (Production)
+      environment: production
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - task: KubernetesManifest@0
+              displayName: Deploy to Kubernetes (Production)
+              inputs:
+                action: deploy
+                kubernetesServiceConnection: $(kubernetesServiceConnection)
+                namespace: production
+                manifests: k8s/deployment-prod.yaml

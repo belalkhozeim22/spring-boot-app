@@ -8,7 +8,7 @@ node_pool = {
     machine_type = "e2-small"
   }
   prod = {
-    node_count   = 3
+    node_count   = 2
     machine_type = "e2-small"
   }
 }

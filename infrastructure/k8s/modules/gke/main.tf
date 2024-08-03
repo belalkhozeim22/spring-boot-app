@@ -24,6 +24,7 @@ resource "google_container_node_pool" "primary_nodes" {
 
   node_config {
     machine_type = var.node_pool["dev"]["machine_type"]
+    disk_size_gb = 10
   }
 }
 
@@ -34,6 +35,7 @@ resource "google_container_node_pool" "production_nodes" {
 
   node_config {
     machine_type = var.node_pool["prod"]["machine_type"]
+    disk_size_gb = 10
   }
 
   management {
