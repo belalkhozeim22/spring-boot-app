@@ -1,16 +1,3 @@
-resource "google_storage_bucket" "terraform_state" {
-  name     = "your-unique-bucket-name"
-  location = var.region
-  force_destroy = true
-}
-
-resource "google_storage_bucket_object" "terraform_state_object" {
-  name   = "terraform/state"
-  bucket = google_storage_bucket.terraform_state.name
-  source = "local/path/to/your/state/file"
-}
-
-
 
 resource "google_compute_network" "vpc_network" {
   name                    = "terraform-vpc"
