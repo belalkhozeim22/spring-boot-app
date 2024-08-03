@@ -2,6 +2,11 @@ resource "google_container_cluster" "primary" {
   name     = var.cluster_name
   location = var.region
 
+  network    = var.network
+  subnetwork = var.subnetwork
+
+  remove_default_node_pool = true
+
   initial_node_count = 1
 
   node_config {
@@ -19,9 +24,6 @@ resource "google_container_node_pool" "primary_nodes" {
 
   node_config {
     machine_type = var.node_pool["dev"]["machine_type"]
-    labels = {
-      nodepool = "dev"
-    }
   }
 }
 
@@ -32,9 +34,6 @@ resource "google_container_node_pool" "production_nodes" {
 
   node_config {
     machine_type = var.node_pool["prod"]["machine_type"]
-    labels = {
-      nodepool = "prod"
-    }
   }
 
   management {

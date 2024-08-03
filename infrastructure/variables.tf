@@ -21,3 +21,13 @@ variable "node_pool" {
     machine_type = string
   }))
 }
+
+variable "network" {
+  description = "The VPC network to host the GKE cluster."
+  type        = string
+}
+
+variable "subnetwork" {
+  description = "The subnetwork to host the GKE cluster."
+  type        = string
+}

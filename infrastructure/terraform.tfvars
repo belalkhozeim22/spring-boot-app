@@ -12,3 +12,6 @@ node_pool = {
     machine_type = "e2-small"
   }
 }
+
+network    = "main-vpc"
+subnetwork = "main-subnet"
