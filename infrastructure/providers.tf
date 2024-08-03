@@ -7,13 +7,13 @@ terraform {
   }
 
   backend "gcs" {
-    bucket = "your-terraform-state-bucket"
+    bucket = "spring-boot-terraform"
     prefix = "terraform/state"
   }
 }
 
 provider "google" {
-  credentials = file("<path-to-your-service-account-key>.json")
+  credentials = file("~/Downloads/spring-boot-project-431122-499adffcb48c.json")
   project     = var.project_id
   region      = var.region
 }
