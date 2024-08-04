@@ -38,7 +38,7 @@ stages:
   - job: SonarQube
     displayName: 'SonarQube Stage'
     steps:
-    - task: SonarQube
+    - task: SonarQubePrepare@4
     #- script: ./gradlew sonarqube
       displayName: 'Running SonarQube Analysis'
 
