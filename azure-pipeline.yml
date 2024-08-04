@@ -27,5 +27,7 @@ stages:
   jobs:
   - job: UnitTest
     steps:
-    - script: ./gradlew test
+    - script: |
+        chmod +x ./gradlew
+        ./gradlew test
       displayName: 'Running Unit Tests'
