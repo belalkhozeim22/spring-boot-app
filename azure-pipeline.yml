@@ -18,9 +18,8 @@ stages:
   jobs:
   - job: Lint
     steps:
-    - script: echo "Linting the code..."
-      displayName: 'Linting'
-
+    - script: ./gradlew checkstyleMain checkstyleTest
+      displayName: 'Linting the code with Checkstyle'
 
 - stage: UnitTest
   jobs:
@@ -40,50 +39,7 @@ stages:
         configMode: 'manual'
         cliProjectKey: 'spring-boot-app'
         cliProjectName: 'spring-boot-app'
+      displayName: 'Preparing SonarQube Analysis'
     - script: ./gradlew sonarqube
       displayName: 'Running SonarQube Analysis'
 
-- stage: BuildImage
-  jobs:
-  - job: BuildImage
-    steps:
-    - task: Docker@2
-      inputs:
-        containerRegistry: '$(dockerHubServiceConnection)'
-        repository: '$(imageRepository)'
-        dockerfile: '$(dockerfilePath)'
-        tags: |
-          $(tag)
-          latest
-
-- stage: PushImage
-  jobs:
-  - job: PushImage
-    steps:
-    - task: Docker@2
-      inputs:
-        containerRegistry: '$(dockerHubServiceConnection)'
-        repository: '$(imageRepository)'
-        command: 'push'
-        tags: |
-          $(tag)
-          latest
-
-- stage: PullImage
-  jobs:
-  - job: PullImage
-    steps:
-    - script: docker pull $(imageRepository):$(tag)
-      displayName: 'Pulling Docker Image'
-
-- stage: DeployInfrastructure
-  jobs:
-  - job: Terraform
-    steps:
-    - script: |
-        terraform init
-        terraform plan -out=tfplan
-        terraform apply -input=false tfplan
-      displayName: 'Deploying Infrastructure with Terraform'
-      env:
-        GOOGLE_CREDENTIALS: $(serviceConnectionJson) # Environment variable for GCP credentials

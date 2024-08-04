@@ -2,6 +2,13 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
+	id 'checkstyle'
+    id 'org.sonarqube' version '3.3'
+}
+
+checkstyle {
+    toolVersion = '8.45.1'
+    config = resources.text.fromFile('checkstyle.xml')
 }
 
 group = 'com.example'
@@ -19,4 +26,11 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.required = false
+        html.required = true
+    }
 }
