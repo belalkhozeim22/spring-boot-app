@@ -2,8 +2,7 @@ trigger:
 - dev
 - main
 
-pool:
-  vmImage: 'ubuntu-latest'
+pool: 'gcp host'
 
 variables:
   dockerHubServiceConnection: 'dockerhub-connection'
@@ -21,3 +20,108 @@ stages:
     steps:
     - script: echo "Linting the code..."
       displayName: 'Linting'
+
+
+- stage: UnitTest
+  jobs:
+  - job: UnitTest
+    steps:
+    - script: ./gradlew test
+      displayName: 'Running Unit Tests'
+
+- stage: SonarQube
+  jobs:
+  - job: SonarQube
+    steps:
+    - task: SonarQubePrepare@4
+      inputs:
+        SonarQube: 'SonarQube service connection'
+        scannerMode: 'CLI'
+        configMode: 'manual'
+        cliProjectKey: 'spring-boot-app'
+        cliProjectName: 'spring-boot-app'
+    - script: ./gradlew sonarqube
+      displayName: 'Running SonarQube Analysis'
+
+- stage: BuildImage
+  jobs:
+  - job: BuildImage
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: '$(dockerHubServiceConnection)'
+        repository: '$(imageRepository)'
+        dockerfile: '$(dockerfilePath)'
+        tags: |
+          $(tag)
+          latest
+
+- stage: PushImage
+  jobs:
+  - job: PushImage
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: '$(dockerHubServiceConnection)'
+        repository: '$(imageRepository)'
+        command: 'push'
+        tags: |
+          $(tag)
+          latest
+
+- stage: PullImage
+  jobs:
+  - job: PullImage
+    steps:
+    - script: docker pull $(imageRepository):$(tag)
+      displayName: 'Pulling Docker Image'
+
+- stage: DeployInfrastructure
+  jobs:
+  - job: Terraform
+    steps:
+    - script: |
+        terraform init
+        terraform plan -out=tfplan
+        terraform apply -input=false tfplan
+      displayName: 'Deploying Infrastructure with Terraform'
+      env:
+        GOOGLE_CREDENTIALS: $(serviceConnectionJson) # Environment variable for GCP credentials
+
+- stage: DeployToDevelopment
+  dependsOn: DeployInfrastructure
+  jobs:
+  - deployment:
+      displayName: Deploy to GKE (Development)
+      environment: development
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - task: KubernetesManifest@0
+              displayName: Deploy to Kubernetes (Development)
+              inputs:
+                action: deploy
+                kubernetesServiceConnection: $(kubernetesServiceConnection)
+                namespace: development
+                manifests: k8s/deployment-dev.yaml
+
+- stage: DeployToProduction
+  dependsOn: DeployInfrastructure
+  jobs:
+  - deployment:
+      displayName: Deploy to GKE (Production)
+      environment: production
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: self
+            - task: KubernetesManifest@0
+              displayName: Deploy to Kubernetes (Production)
+              inputs:
+                action: deploy
+                kubernetesServiceConnection: $(kubernetesServiceConnection)
+                namespace: production
+                manifests: k8s/deployment-prod.yaml
