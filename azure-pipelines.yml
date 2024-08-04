@@ -1,19 +1,18 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+pool: 'gcp host'
 
-trigger:
-- main
+variables:
+  dockerHubServiceConnection: 'dockerhub-connection'
+  imageRepository: 'belalkhozeim22/spring-boot-app-image'
+  dockerfilePath: './Dockerfile'
+  tag: '$(Build.BuildId)'
+  terraformServiceConnection: 'gke-connection'  # Service connection for GKE
+  kubernetesServiceConnection: 'gke-connection'  # Same service connection for Kubernetes deployment
+  terraformWorkingDirectory: './infrastructure'
 
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+- stage: Lint
+  jobs:
+  - job: Lint
+    steps:
+    - script: echo "Linting the code..."
+      displayName: 'Linting'
