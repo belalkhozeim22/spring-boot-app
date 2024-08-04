@@ -12,3 +12,18 @@ variables:
   terraformServiceConnection: 'gke-connection' #Service connection for GKE
   kubernetesServiceConnection: 'gke-connection' #Same service connection for Kubernetes deployment
   terraformWorkingDirectory: './infrastructure'
+
+stages:
+- stage: SetupDocker
+  jobs:
+  - job: SetupDocker
+    steps:
+    - script: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+        sudo usermod -aG docker $(whoami)
+      displayName: 'Install Docker'
+    - script: |
+        docker --version
+        docker run hello-world
+      displayName: 'Verify Docker Installation'
