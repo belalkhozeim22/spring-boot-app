@@ -39,6 +39,7 @@ stages:
     displayName: 'SonarQube Stage'
     steps:
     #- script: ./gradlew sonarqube
+    - script: echo "SonarQube testing"
       displayName: 'Running SonarQube Analysis'
 
 
