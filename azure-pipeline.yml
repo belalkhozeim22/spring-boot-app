@@ -14,19 +14,22 @@ variables:
   terraformWorkingDirectory: './infrastructure'
 
 stages:
-- stage: Lint
+- stage: Build
   jobs:
   - job: Lint
+    displayName: 'Lint Stage'
     steps:
+    - script: chmod +x ./gradlew
+      displayName: 'Make Gradle Wrapper Executable'
+
     - script: ./gradlew checkstyleMain checkstyleTest
       displayName: 'Linting the code with Checkstyle'
 
-- stage: UnitTest
-  jobs:
   - job: UnitTest
+    displayName: 'Unit Test Stage'
     steps:
+    - script: chmod +x ./gradlew
+      displayName: 'Make Gradle Wrapper Executable'
+
     - script: ./gradlew test
-      displayName: 'Running Unit Tests'
-
-
-
+      displayName: 'Run Unit Tests'
