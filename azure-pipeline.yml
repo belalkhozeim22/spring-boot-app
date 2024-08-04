@@ -24,3 +24,4 @@ stages:
 
     - script: ./gradlew checkstyleMain checkstyleTest
       displayName: 'Linting the code with Checkstyle'
+
