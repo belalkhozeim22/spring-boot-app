@@ -22,6 +22,6 @@ stages:
     - script: chmod +x ./gradlew
       displayName: 'Make Gradle Wrapper Executable'
 
-    - script: ./gradlew checkstyleMain checkstyleTest
+    - script: ./gradlew checkstyleMain checkstyleTest --info --stacktrace
       displayName: 'Linting the code with Checkstyle'
 
