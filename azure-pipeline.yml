@@ -9,8 +9,8 @@ variables:
   imageRepository: 'belalkhozeim22/spring-boot-app-image'
   dockerfilePath: './Dockerfile'
   tag: '$(Build.BuildId)'
-  terraformServiceConnection: 'gke-connection'  # Service connection for GKE
-  kubernetesServiceConnection: 'gke-connection'  # Same service connection for Kubernetes deployment
+  terraformServiceConnection: 'gke-connection'   #Service connection for GKE
+  kubernetesServiceConnection: 'gke-connection'  #Same service connection for Kubernetes deployment
   terraformWorkingDirectory: './infrastructure'
 
 stages:
@@ -47,11 +47,10 @@ stages:
         GOOGLE_CREDENTIALS: $(serviceConnectionJson) # Environment variable for GCP credentials
 
 - stage: DeployToDevelopment
+  displayName: Deploy to GKE (Development)
   dependsOn: DeployInfrastructure
   jobs:
   - deployment:
-      displayName: Deploy to GKE (Development)
-      environment: development
       strategy:
         runOnce:
           deploy:
@@ -66,11 +65,10 @@ stages:
                 manifests: k8s/deployment-dev.yaml
 
 - stage: DeployToProduction
+  displayName: Deploy to GKE (Production)
   dependsOn: DeployInfrastructure
   jobs:
   - deployment:
-      displayName: Deploy to GKE (Production)
-      environment: production
       strategy:
         runOnce:
           deploy:
