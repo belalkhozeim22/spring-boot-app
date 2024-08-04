@@ -18,6 +18,15 @@ stages:
   jobs:
   - job: PushImage
     steps:
+    - script: |
+        sudo apt-get update
+        sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+        sudo usermod -aG docker $(whoami)
+        newgrp docker
+        docker --version
+      displayName: 'Install Docker'
+    - script: docker run hello-world
+      displayName: 'Verify Docker Installation'
     - task: Docker@2
       inputs:
         containerRegistry: '$(dockerHubServiceConnection)'
