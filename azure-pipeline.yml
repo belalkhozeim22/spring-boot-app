@@ -36,7 +36,8 @@ stages:
       inputs:
         containerRegistry: '$(dockerHubServiceConnection)'
         repository: '$(imageRepository)'
-        command: 'push'
+        Dockerfile: '$(dockerfilePath)'
+        command: 'buildAndPush'
         tags: |
           $(tag)
           latest
