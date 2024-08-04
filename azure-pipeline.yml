@@ -9,8 +9,8 @@ variables:
   imageRepository: 'belalkhozeim22/spring-boot-app-image'
   dockerfilePath: './Dockerfile'
   tag: '$(Build.BuildId)'
-  terraformServiceConnection: 'gke-connection'   #Service connection for GKE
-  kubernetesServiceConnection: 'gke-connection'  #Same service connection for Kubernetes deployment
+  terraformServiceConnection: 'gke-connection' #Service connection for GKE
+  kubernetesServiceConnection: 'gke-connection' #Same service connection for Kubernetes deployment
   terraformWorkingDirectory: './infrastructure'
 
 stages:
@@ -51,33 +51,33 @@ stages:
   dependsOn: DeployInfrastructure
   jobs:
   - deployment:
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - checkout: self
-            - task: KubernetesManifest@0
-              displayName: Deploy to Kubernetes (Development)
-              inputs:
-                action: deploy
-                kubernetesServiceConnection: $(kubernetesServiceConnection)
-                namespace: development
-                manifests: k8s/deployment-dev.yaml
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes (Development)
+            inputs:
+              action: deploy
+              kubernetesServiceConnection: $(kubernetesServiceConnection)
+              namespace: development
+              manifests: k8s/deployment-dev.yaml
 
 - stage: DeployToProduction
   displayName: Deploy to GKE (Production)
   dependsOn: DeployInfrastructure
   jobs:
   - deployment:
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - checkout: self
-            - task: KubernetesManifest@0
-              displayName: Deploy to Kubernetes (Production)
-              inputs:
-                action: deploy
-                kubernetesServiceConnection: $(kubernetesServiceConnection)
-                namespace: production
-                manifests: k8s/deployment-prod.yaml
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes (Production)
+            inputs:
+              action: deploy
+              kubernetesServiceConnection: $(kubernetesServiceConnection)
+              namespace: production
+              manifests: k8s/deployment-prod.yaml
