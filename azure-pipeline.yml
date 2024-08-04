@@ -51,7 +51,7 @@ stages:
       inputs:
         containerRegistry: '$(dockerHubServiceConnection)'
         repository: '$(imageRepository)'
-        dockerfile: '$(dockerfilePath)'
+        Dockerfile: '$(dockerfilePath)'
         tags: |
           $(tag)
           latest
