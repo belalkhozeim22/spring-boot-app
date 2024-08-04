@@ -14,16 +14,13 @@ variables:
   terraformWorkingDirectory: './infrastructure'
 
 stages:
-- stage: SetupDocker
+- stage: Lint
   jobs:
-  - job: SetupDocker
+  - job: Lint
+    displayName: 'Lint Stage'
     steps:
-    - script: |
-        apt-get update
-        apt-get install -y docker.io
-        usermod -aG docker $(whoami)
-      displayName: 'Install Docker'
-    - script: |
-        docker --version
-        docker run hello-world
-      displayName: 'Verify Docker Installation'
+    - script: chmod +x ./gradlew
+      displayName: 'Make Gradle Wrapper Executable'
+
+    - script: ./gradlew checkstyleMain checkstyleTest
+      displayName: 'Linting the code with Checkstyle'
