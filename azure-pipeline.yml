@@ -39,12 +39,6 @@ stages:
     displayName: 'SonarQube Stage'
     steps:
     - task: SonarQubePrepare@4
-      inputs:
-        SonarQube: 'SonarQube service connection'
-        scannerMode: 'CLI'
-        configMode: 'manual'
-        cliProjectKey: 'spring-boot-app'
-        cliProjectName: 'spring-boot-app'
       displayName: 'Preparing SonarQube Analysis'
     - script: ./gradlew sonarqube
       displayName: 'Running SonarQube Analysis'
