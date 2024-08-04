@@ -51,6 +51,7 @@ stages:
       inputs:
         containerRegistry: '$(dockerHubServiceConnection)'
         repository: '$(imageRepository)'
+        command: 'build'
         Dockerfile: '$(dockerfilePath)'
         tags: |
           $(tag)
