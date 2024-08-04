@@ -15,9 +15,11 @@ resource "google_compute_subnetwork" "subnetwork" {
 module "gke" {
   source       = "./k8s/modules/gke"
   project_id   = var.project_id
-  region       = var.region
+  location = var.location
+  region = var.region
   cluster_name = var.cluster_name
   node_pool    = var.node_pool
   network      = google_compute_network.vpc_network.name
   subnetwork   = google_compute_subnetwork.subnetwork.name
+
 }

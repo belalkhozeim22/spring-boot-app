@@ -1,7 +1,7 @@
 project_id  = "spring-boot-project-431122"
 region      = "us-central1"
 cluster_name = "deployment-cluster"
-
+location        = "us-central1-a" 
 node_pool = {
   dev = {
     node_count   = 1
