@@ -14,7 +14,15 @@ variables:
   terraformWorkingDirectory: './infrastructure'
 
 stages:
-
+- stage: SetupDocker
+  jobs:
+  - job: SetupDocker
+    steps:
+    - script: |
+        sudo usermod -aG docker $(whoami)
+        newgrp docker
+        docker --version
+      displayName: 'Configure Docker'
 
 
 - stage: PushImage
