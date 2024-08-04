@@ -19,9 +19,8 @@ stages:
   - job: Lint
     displayName: 'Lint Stage'
     steps:
-    - script: chmod +x ./gradlew
-      displayName: 'Make Gradle Wrapper Executable'
-
-    - script: ./gradlew checkstyleMain checkstyleTest --info --stacktrace
+    - script: |
+        sudo apt-get update
+        sudo apt-get install -y openjdk-17-jdk
+        ./gradlew checkstyleMain checkstyleTest --info --stacktrace
       displayName: 'Linting the code with Checkstyle'
-

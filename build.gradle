@@ -34,3 +34,5 @@ tasks.withType(Checkstyle) {
         html.required = true
     }
 }
+
+check.dependsOn checkstyleMain, checkstyleTest
