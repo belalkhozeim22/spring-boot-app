@@ -23,3 +23,9 @@ stages:
       displayName: 'Linting the code with Checkstyle'
 
 
+- stage: UnitTest
+  jobs:
+  - job: UnitTest
+    steps:
+    - script: ./gradlew test
+      displayName: 'Running Unit Tests'
