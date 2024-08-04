@@ -19,9 +19,9 @@ stages:
   - job: SetupDocker
     steps:
     - script: |
-        sudo apt-get update
-        sudo apt-get install -y docker.io
-        sudo usermod -aG docker $(whoami)
+        apt-get update
+        apt-get install -y docker.io
+        usermod -aG docker $(whoami)
       displayName: 'Install Docker'
     - script: |
         docker --version
