@@ -16,7 +16,9 @@ COPY src/ src/
 RUN chmod +x gradlew
 
 # Build the application
-RUN ./gradlew build --no-daemon
+RUN ./gradlew clean --no-daemon --stacktrace
+RUN ./gradlew build --no-daemon --stacktrace
+
 
 # Stage 2: Create a minimal runtime image
 FROM openjdk:11-jdk-slim
