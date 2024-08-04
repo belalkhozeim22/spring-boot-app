@@ -1,6 +1,6 @@
 trigger:
 - dev
-#- main
+- main
 
 pool: 'gcp host'
 
@@ -12,6 +12,7 @@ variables:
   terraformServiceConnection: 'gke-connection'  # Service connection for GKE
   kubernetesServiceConnection: 'gke-connection'  # Same service connection for Kubernetes deployment
   terraformWorkingDirectory: './infrastructure'
+
 stages:
 - stage: PushImage
   jobs:
@@ -62,7 +63,7 @@ stages:
                 action: deploy
                 kubernetesServiceConnection: $(kubernetesServiceConnection)
                 namespace: development
-                manifests: k8s/deployment-dev.yaml
+                manifests: Infrastructure/deployment-dev.yaml
 
 - stage: DeployToProduction
   dependsOn: DeployInfrastructure
@@ -81,42 +82,4 @@ stages:
                 action: deploy
                 kubernetesServiceConnection: $(kubernetesServiceConnection)
                 namespace: production
-                manifests: k8s/deployment-prod.yaml
-
-- stage: DeployToDevelopment
-  dependsOn: DeployInfrastructure
-  jobs:
-  - deployment:
-      displayName: Deploy to GKE (Development)
-      environment: development
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - checkout: self
-            - task: KubernetesManifest@0
-              displayName: Deploy to Kubernetes (Development)
-              inputs:
-                action: deploy
-                kubernetesServiceConnection: $(kubernetesServiceConnection)
-                namespace: development
-                manifests: k8s/deployment-dev.yaml
-
-- stage: DeployToProduction
-  dependsOn: DeployInfrastructure
-  jobs:
-  - deployment:
-      displayName: Deploy to GKE (Production)
-      environment: production
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - checkout: self
-            - task: KubernetesManifest@0
-              displayName: Deploy to Kubernetes (Production)
-              inputs:
-                action: deploy
-                kubernetesServiceConnection: $(kubernetesServiceConnection)
-                namespace: production
-                manifests: k8s/deployment-prod.yaml
+                manifests: Infrastructure/deployment-prod.yaml
