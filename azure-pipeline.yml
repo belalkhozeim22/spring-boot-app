@@ -38,7 +38,21 @@ stages:
   - job: SonarQube
     displayName: 'SonarQube Stage'
     steps:
-    - task: SonarQubePrepare@4
-      displayName: 'Preparing SonarQube Analysis'
-    - script: ./gradlew sonarqube
+    - task: SonarQube
+    #- script: ./gradlew sonarqube
       displayName: 'Running SonarQube Analysis'
+
+
+- stage: BuildImage
+  jobs:
+  - job: BuildImage
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: '$(dockerHubServiceConnection)'
+        repository: '$(imageRepository)'
+        dockerfile: '$(dockerfilePath)'
+        tags: |
+          $(tag)
+          latest
+
