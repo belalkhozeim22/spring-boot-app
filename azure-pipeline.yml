@@ -27,6 +27,10 @@ stages:
         deploy:
           steps:
           - checkout: self
+          - script: |
+              echo "Listing contents of $(Pipeline.Workspace)/deployment:"
+              ls $(Pipeline.Workspace)/deployment
+            displayName: List deployment directory contents
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes (Development)
             inputs:
@@ -39,5 +43,6 @@ stages:
                 $(Pipeline.Workspace)/deployment/service.yml
                 $(Pipeline.Workspace)/deployment/ingress.yml
               validate: false
+
 
 
