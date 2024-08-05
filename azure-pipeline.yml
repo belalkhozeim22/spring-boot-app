@@ -31,18 +31,14 @@ stages:
               echo "Listing contents of $(System.DefaultWorkingDirectory)/deployment:"
               ls $(System.DefaultWorkingDirectory)/deployment
             displayName: List deployment directory contents
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes (Development)
+          
+          - task: Kubernetes@1
             inputs:
-              action: 'deploy'
-              kubernetesServiceConnection: 'gke-connection'
-              namespace: 'development'
-              manifests: |
-                $(System.DefaultWorkingDirectory)/deployment/namespaces.yml
-                $(System.DefaultWorkingDirectory)/deployment/deployment-dev.yml
-                $(System.DefaultWorkingDirectory)/deployment/service.yml
-                $(System.DefaultWorkingDirectory)/deployment/ingress.yml
-              validate: false
+              #connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'gke-connection'
+              command: 'apply'
+
+              workingDirectory: '$(System.DefaultWorkingDirectory)/deployment/'
 
 
 
