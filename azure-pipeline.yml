@@ -28,8 +28,8 @@ stages:
           steps:
           - checkout: self
           - script: |
-              echo "Listing contents of $(Pipeline.Workspace)/deployment:"
-              ls $(Pipeline.Workspace)/deployment
+              echo "Listing contents of $(System.DefaultWorkingDirectory)/deployment:"
+              ls $(System.DefaultWorkingDirectory)/deployment
             displayName: List deployment directory contents
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes (Development)
@@ -38,11 +38,12 @@ stages:
               kubernetesServiceConnection: 'gke-connection'
               namespace: 'development'
               manifests: |
-                $(Pipeline.Workspace)/deployment/namespaces.yml
-                $(Pipeline.Workspace)/deployment/deployment-dev.yml
-                $(Pipeline.Workspace)/deployment/service.yml
-                $(Pipeline.Workspace)/deployment/ingress.yml
+                $(System.DefaultWorkingDirectory)/deployment/namespaces.yml
+                $(System.DefaultWorkingDirectory)/deployment/deployment-dev.yml
+                $(System.DefaultWorkingDirectory)/deployment/service.yml
+                $(System.DefaultWorkingDirectory)/deployment/ingress.yml
               validate: false
+
 
 
 
