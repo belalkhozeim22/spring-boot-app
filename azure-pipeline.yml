@@ -114,6 +114,7 @@ stages:
   jobs:
   - deployment: DeployToDev
     displayName: Deploy to Development Namespace
+    environment: 'development-environment'
     strategy:
       runOnce:
         deploy:
