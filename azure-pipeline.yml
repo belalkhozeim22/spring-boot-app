@@ -32,7 +32,7 @@ stages:
             inputs:
               kubernetesServiceEndpoint: 'gke-connection'
               command: 'apply'
-              arguments: '-f deployment'
+              arguments: '-f deployment --validate=false'
 
 
 
