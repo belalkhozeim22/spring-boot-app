@@ -34,11 +34,11 @@ stages:
           
           - task: Kubernetes@1
             inputs:
-              #connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'gke-connection'
-              command: 'apply -f'
-
+              command: 'apply'
+              arguments: '-f $(System.DefaultWorkingDirectory)/deployment'
               workingDirectory: '$(System.DefaultWorkingDirectory)/deployment'
+
 
 
 
