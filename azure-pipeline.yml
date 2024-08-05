@@ -30,8 +30,8 @@ stages:
           - checkout: self
           - task: PublishPipelineArtifact@1
             inputs:
-            artifactName: 'manifests'
-            targetPath: '$(Pipeline.Workspace)/manifests'
+              artifactName: 'manifests'
+              targetPath: '$(Pipeline.Workspace)/manifests'
           - task: DownloadPipelineArtifact@2
             inputs:
               artifactName: 'manifests'
