@@ -28,11 +28,12 @@ stages:
           steps:
           - checkout: self
           
-          - task: Kubernetes@1
+          - task: KubernetesManifest@1
             inputs:
-              kubernetesServiceEndpoint: 'gke-connection'
-              command: 'apply'
-              arguments: '-f deployment --insecure-skip-tls-verify'
+            action: 'deploy'
+            connectionType: 'kubernetesServiceConnection'
+            kubernetesServiceConnection: 'gke-connection'
+            manifests: 'deployment'
 
 
 
