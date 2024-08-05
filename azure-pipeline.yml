@@ -31,12 +31,12 @@ stages:
           steps:
           - checkout: self
           
-          - script: |
-              gcloud container clusters get-credentials  deployment-cluster --zone us-central1-a	 --project spring-boot-project-431122
-              kubectl apply -f $(Pipeline.Workspace)/manifests/namespaces.yml --validate=false --insecure-skip-tls-verify
-              kubectl apply -f $(Pipeline.Workspace)/manifests/deployment-dev.yml --validate=false --insecure-skip-tls-verify
-              kubectl apply -f $(Pipeline.Workspace)/manifests/service.yml --validate=false --insecure-skip-tls-verify
-              kubectl apply -f $(Pipeline.Workspace)/manifests/ingress.yml --validate=false --insecure-skip-tls-verify
+          - task: KubernetesManifest@1
+            inputs:
+              action: 'deploy'
+              connectionType: 'kubernetesServiceConnection'
+              kubernetesServiceConnection: 'gke-connection'
+              manifests: './deployment/*.yml'
             displayName: Deploy to Kubernetes (Development)
     
 
