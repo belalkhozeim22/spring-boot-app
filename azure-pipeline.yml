@@ -37,10 +37,10 @@ stages:
               kubernetesServiceConnection: $(kubernetesServiceConnection)
               #namespace: development
               manifests: |
-                $(System.ArtifactsDirectory)/deployment/namespace.yaml
-                $(System.ArtifactsDirectory)/deployment/deployment.yaml
-                $(System.ArtifactsDirectory)/deployment/service.yaml
-                $(System.ArtifactsDirectory)/deployment/ingress.yaml
+                ./deployment/namespace.yaml
+                ./deployment/deployment.yaml
+                ./deployment/service.yaml
+                ./deployment/ingress.yaml
 
 
 
