@@ -31,12 +31,11 @@ stages:
           steps:
           - checkout: self
           
-          - task: KubernetesManifest@1
+          - task: KubernetesManifest@0
             inputs:
               action: 'deploy'
-              connectionType: 'kubernetesServiceConnection'
               kubernetesServiceConnection: 'gke-connection'
-              manifests: './deployment/*.yml'
+              manifests: 'deployment/deployment-dev.yml'
             displayName: Deploy to Kubernetes (Development)
     
 
