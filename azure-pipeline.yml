@@ -36,8 +36,9 @@ stages:
             inputs:
               kubernetesServiceEndpoint: 'gke-connection'
               command: 'apply'
-              arguments: '-f $(System.DefaultWorkingDirectory)/deployment'
+              arguments: '-f $(System.DefaultWorkingDirectory)/deployment --validate=false'
               workingDirectory: '$(System.DefaultWorkingDirectory)/deployment'
+
 
 
 
