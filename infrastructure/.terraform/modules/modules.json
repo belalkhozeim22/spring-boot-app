@@ -1,1 +1,0 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"gke","Source":"./k8s/modules/gke","Dir":"k8s/modules/gke"}]}

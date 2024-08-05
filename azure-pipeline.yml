@@ -92,7 +92,6 @@ stages:
         backendServiceGCP: 'terraform-gcp-connection'
         backendGCPBucketName: 'spring-boot-terraform'
         backendGCPPrefix: 'terraform/state'
-        #additionalArguments: '-migrate-state'
         workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
     - task: TerraformTaskV4@4
       inputs:
@@ -106,5 +105,27 @@ stages:
         command: 'apply'
         environmentServiceNameGCP: 'terraform-gcp-connection'
         workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
+
+
+
+- stage: DeployToDevelopment
+  displayName: Deploy to GKE (Development)
+  dependsOn: DeployInfrastructure
+  jobs:
+  - deployment: DeployToDev
+    displayName: Deploy to Development Namespace
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes (Development)
+            inputs:
+              action: deploy
+              kubernetesServiceConnection: $(kubernetesServiceConnection)
+              #namespace: development
+              manifests: deployment/*.yaml
+
 
 

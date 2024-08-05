@@ -41,3 +41,9 @@ out/
 *.tfstate
 *.tfstate.*
 **/.terraform/*
+*.auto.tfvars
+
+.terraform/
+
+.terraformrc
+
