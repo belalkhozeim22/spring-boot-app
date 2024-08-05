@@ -26,6 +26,10 @@ stages:
         deploy:
           steps:
           - checkout: self
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              artifactName: 'manifests'
+              downloadPath: '$(System.ArtifactsDirectory)/manifests'
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes (Development)
             inputs:
@@ -33,10 +37,10 @@ stages:
               kubernetesServiceConnection: $(kubernetesServiceConnection)
               #namespace: development
               manifests: |
-                $(Pipeline.Workspace)/deployment/namespace.yaml
-                $(Pipeline.Workspace)/deployment/deployment.yaml
-                $(Pipeline.Workspace)/deployment/service.yaml
-                $(Pipeline.Workspace)/deployment/ingress.yaml
+                $(System.ArtifactsDirectory)/deployment/namespace.yaml
+                $(System.ArtifactsDirectory)/deployment/deployment.yaml
+                $(System.ArtifactsDirectory)/deployment/service.yaml
+                $(System.ArtifactsDirectory)/deployment/ingress.yaml
 
 
 
