@@ -27,17 +27,12 @@ stages:
         deploy:
           steps:
           - checkout: self
-
-          - script: |
-              gcloud container clusters get-credentials deployment-cluster --zone us-central1-a --project spring-boot-project-431122
-            displayName: List deployment directory contents
           
           - task: Kubernetes@1
             inputs:
               kubernetesServiceEndpoint: 'gke-connection'
               command: 'apply'
-              arguments: '-f $(System.DefaultWorkingDirectory)/deployment'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/deployment'
+              arguments: '-f deployment'
 
 
 
