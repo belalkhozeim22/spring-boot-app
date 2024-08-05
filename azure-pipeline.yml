@@ -9,7 +9,7 @@ variables:
   imageRepository: 'belalkhozeim22/spring-boot-app-image'
   dockerfilePath: './Dockerfile'
   tag: '$(Build.BuildId)'
-  terraformServiceConnection: 'gke-connection' #Service connection for GKE
+  terraformServiceConnection: 'terraform-gcp-connection' #Service connection for GKE
   kubernetesServiceConnection: 'gke-connection' #Same service connection for Kubernetes deployment
   terraformWorkingDirectory: './infrastructure'
 
@@ -85,10 +85,22 @@ stages:
   jobs:
   - job: Terraform
     steps:
-    - script: |
-        terraform init
-        terraform plan -out=tfplan
-        terraform apply -input=false tfplan
-      displayName: 'Deploying Infrastructure with Terraform'
-      env:
-        GOOGLE_CREDENTIALS: $(serviceConnectionJson)
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'gcp'
+        command: 'init'
+        backendServiceGCP: 'terraform-gcp-connection'
+        backendGCPBucketName: 'spring-boot-terraform'
+        backendGCPPrefix: 'terraform/state'
+  - task: TerraformTaskV4@4
+    inputs:
+      provider: 'gcp'
+      command: 'plan'
+      environmentServiceNameGCP: 'terraform-gcp-connection'
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'gcp'
+    command: 'apply'
+    environmentServiceNameGCP: 'terraform-gcp-connection'
+
+
