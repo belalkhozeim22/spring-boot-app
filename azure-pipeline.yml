@@ -34,10 +34,10 @@ stages:
           
           - task: KubernetesManifest@1
             inputs:
-            action: 'deploy'
-            connectionType: 'kubernetesServiceConnection'
-            kubernetesServiceConnection: 'gke-connection'
-            manifests: 'deployment'
+              action: 'deploy'
+              connectionType: 'kubernetesServiceConnection'
+              kubernetesServiceConnection: 'gke-connection'
+              manifests: 'deployment'
 
 
 
