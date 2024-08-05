@@ -85,13 +85,6 @@ stages:
   jobs:
   - job: Terraform
     steps:
-    - script: |
-        apt-get update
-        apt-get install -y unzip
-      displayName: 'Install unzip utility'
-    - task: TerraformInstaller@1
-      inputs:
-        terraformVersion: 'latest'
     - task: TerraformTaskV4@4
       inputs:
         provider: 'gcp'
