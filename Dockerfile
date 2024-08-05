@@ -1,36 +1,33 @@
-# Stage 1: Build the application
-FROM gradle:7.4.1-jdk11 AS builder
-
-WORKDIR /app
-
-# Copy the Gradle wrapper and build files
-COPY gradle/ gradle/
-COPY gradlew gradlew
-COPY gradlew.bat gradlew.bat
-COPY build.gradle settings.gradle ./
-
-# Copy the source code
-COPY src/ src/
-
-# Ensure the gradlew script is executable
-RUN chmod +x gradlew
-
-# Build the application
-RUN ./gradlew clean --no-daemon --stacktrace
-RUN ./gradlew build --no-daemon --stacktrace
-
-
-# Stage 2: Create a minimal runtime image
+# Use the official image as a parent image
 FROM openjdk:11-jdk-slim
 
+# Set the working directory
 WORKDIR /app
 
-# Copy the JAR file from the build stage
-COPY --from=builder /app/build/libs/*.jar /app/app.jar
+# Install dos2unix to fix line endings
+RUN apt-get update && apt-get install -y dos2unix
 
+# Copy the build.gradle and settings.gradle files first for Gradle build cache
+COPY build.gradle settings.gradle ./
+
+# Copy the Gradle wrapper files
+COPY gradlew gradlew.bat ./
+COPY gradle/ gradle/
+
+# Ensure the Gradle wrapper is executable and fix line endings
+RUN dos2unix gradlew && chmod +x gradlew
+
+# Download the dependencies without running the tests
+RUN ./gradlew dependencies --no-daemon
+
+# Copy the rest of the application
+COPY src/ src/
+
+# Build the application
+RUN ./gradlew bootJar --no-daemon
+
+# Expose the port the application runs on
 EXPOSE 8080
 
-# Define healthcheck
-HEALTHCHECK CMD curl --fail http://localhost:8080/actuator/health || exit 1
-
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+# Set the entry point to run the application
+ENTRYPOINT ["java","-jar","/app/build/libs/demo-0.0.1-SNAPSHOT.jar"]
