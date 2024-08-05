@@ -38,7 +38,7 @@ stages:
               kubernetesServiceEndpoint: 'gke-connection'
               command: 'apply'
 
-              workingDirectory: '$(System.DefaultWorkingDirectory)/deployment/deployment-dev.yml'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/deployment'
 
 
 
