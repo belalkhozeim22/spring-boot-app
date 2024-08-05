@@ -32,7 +32,11 @@ stages:
               action: deploy
               kubernetesServiceConnection: $(kubernetesServiceConnection)
               #namespace: development
-              manifests: $(Pipeline.Workspace)/manifests/deployment/*.yaml
+              manifests: |
+                $(Pipeline.Workspace)/deployment/namespace.yaml
+                $(Pipeline.Workspace)/deployment/deployment.yaml
+                $(Pipeline.Workspace)/deployment/service.yaml
+                $(Pipeline.Workspace)/deployment/ingress.yaml
 
 
 
