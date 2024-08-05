@@ -33,10 +33,11 @@ stages:
               kubernetesServiceConnection: $(kubernetesServiceConnection)
               #namespace: development
               manifests: |
-                ./deployment/namespace.yaml
-                ./deployment/deployment.yaml
-                ./deployment/service.yaml
-                ./deployment/ingress.yaml
+                ./deployment/namespaces.yml
+                ./deployment/deployment-dev.yml
+                ./deployment/deployment-prod.yml
+                ./deployment/service.yml
+                ./deployment/ingress.yml
 
 
 
