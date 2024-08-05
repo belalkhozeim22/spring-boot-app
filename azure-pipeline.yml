@@ -120,17 +120,17 @@ stages:
         deploy:
           steps:
           - checkout: self
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes (Development)
+          - task: DownloadPipelineArtifact@2
             inputs:
-              action: deploy
-              kubernetesServiceConnection: $(kubernetesServiceConnection)
-              namespace: development
-              manifests: |
-                ./deployment/namespaces.yml
-                ./deployment/deployment-dev.yml
-                ./deployment/service.yml
-                ./deployment/ingress.yml
+              artifactName: 'manifests'
+              downloadPath: '$(System.ArtifactsDirectory)/manifests'
+          - script: |
+              kubectl apply -f $(System.ArtifactsDirectory)/deployment/namespaces.yml --insecure-skip-tls-verify
+              kubectl apply -f $(System.ArtifactsDirectory)/deployment/deployment-dev.yml --insecure-skip-tls-verify
+              kubectl apply -f $(System.ArtifactsDirectory)/deployment/service.yml --insecure-skip-tls-verify
+              kubectl apply -f $(System.ArtifactsDirectory)/deployment/ingress.yml --insecure-skip-tls-verify
+            displayName: Deploy to Kubernetes (Development)
+    
 
 
 
