@@ -25,7 +25,7 @@ stages:
         backendServiceGCP: 'terraform-gcp-connection'
         backendGCPBucketName: 'spring-boot-terraform'
         backendGCPPrefix: 'terraform/state'
-        additionalArguments: '-migrate-state'
+        #additionalArguments: '-migrate-state'
         workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
     - task: TerraformTaskV4@4
       inputs:
