@@ -27,6 +27,10 @@ stages:
         deploy:
           steps:
           - checkout: self
+
+          - task: KubectlInstaller@0
+            inputs:
+              kubectlVersion: 'latest'
           
           - task: KubernetesManifest@1
             inputs:
