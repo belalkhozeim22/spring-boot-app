@@ -97,10 +97,10 @@ stages:
         provider: 'gcp'
         command: 'plan'
         environmentServiceNameGCP: 'terraform-gcp-connection'
-  - task: TerraformTaskV4@4
-    inputs:
-      provider: 'gcp'
-      command: 'apply'
-      environmentServiceNameGCP: 'terraform-gcp-connection'
+    - task: TerraformTaskV4@4
+      inputs:
+        provider: 'gcp'
+        command: 'apply'
+        environmentServiceNameGCP: 'terraform-gcp-connection'
 
 
