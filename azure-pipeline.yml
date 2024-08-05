@@ -26,10 +26,6 @@ stages:
         deploy:
           steps:
           - checkout: self
-          - task: DownloadPipelineArtifact@2
-            inputs:
-              artifactName: 'manifests'
-              downloadPath: '$(System.ArtifactsDirectory)/manifests'
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes (Development)
             inputs:
