@@ -70,3 +70,25 @@ stages:
         tags: |
           $(tag)
           latest
+
+
+- stage: PullImage
+  jobs:
+  - job: PullImage
+    steps:
+    - script: docker pull $(imageRepository):$(tag)
+      displayName: 'Pulling Docker Image'
+
+
+
+- stage: DeployInfrastructure
+  jobs:
+  - job: Terraform
+    steps:
+    - script: |
+        terraform init
+        terraform plan -out=tfplan
+        terraform apply -input=false tfplan
+      displayName: 'Deploying Infrastructure with Terraform'
+      env:
+        GOOGLE_CREDENTIALS: $(serviceConnectionJson)
