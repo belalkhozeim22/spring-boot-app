@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Install dos2unix to fix line endings
 RUN apt-get update && apt-get install -y dos2unix
-
+COPY . .
 # Copy the build.gradle and settings.gradle files first for Gradle build cache
 COPY build.gradle settings.gradle ./
 
