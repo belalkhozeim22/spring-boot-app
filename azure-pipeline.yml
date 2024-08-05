@@ -29,9 +29,9 @@ stages:
           - checkout: self
           - script: |
               ls
-              kubectl apply -f $(Pipeline.Workspace)/deployment/namespaces.yml --insecure-skip-tls-verify
-              kubectl apply -f $(Pipeline.Workspace)/deployment/deployment-dev.yml --insecure-skip-tls-verify
-              kubectl apply -f $(Pipeline.Workspace)/deployment/service.yml --insecure-skip-tls-verify
-              kubectl apply -f $(Pipeline.Workspace)/deployment/ingress.yml --insecure-skip-tls-verify
+              kubectl apply -f deployment/namespaces.yml --insecure-skip-tls-verify
+              kubectl apply -f deployment/deployment-dev.yml --insecure-skip-tls-verify
+              kubectl apply -f deployment/service.yml --insecure-skip-tls-verify
+              kubectl apply -f deployment/ingress.yml --insecure-skip-tls-verify
             displayName: Deploy to Kubernetes (Development)
 
