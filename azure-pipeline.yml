@@ -92,15 +92,18 @@ stages:
         backendServiceGCP: 'terraform-gcp-connection'
         backendGCPBucketName: 'spring-boot-terraform'
         backendGCPPrefix: 'terraform/state'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
     - task: TerraformTaskV4@4
       inputs:
         provider: 'gcp'
         command: 'plan'
         environmentServiceNameGCP: 'terraform-gcp-connection'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
     - task: TerraformTaskV4@4
       inputs:
         provider: 'gcp'
         command: 'apply'
         environmentServiceNameGCP: 'terraform-gcp-connection'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/infrastructure'
 
 
