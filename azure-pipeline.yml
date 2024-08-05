@@ -16,7 +16,7 @@ variables:
 stages:
 - stage: DeployToDevelopment
   displayName: Deploy to GKE (Development)
-  dependsOn: DeployInfrastructure
+  #dependsOn: DeployInfrastructure
   jobs:
   - deployment: DeployToDev
     displayName: Deploy to Development Namespace
