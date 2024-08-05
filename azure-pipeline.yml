@@ -126,7 +126,7 @@ stages:
               action: deploy
               kubernetesServiceConnection: $(kubernetesServiceConnection)
               #namespace: development
-              manifests: deployment/*.yaml
+              manifests: $(Pipeline.Workspace)/manifests/deployment/*.yaml
 
 
 

@@ -26,6 +26,9 @@ resource "google_container_node_pool" "dev_node_pool" {
   node_config {
     machine_type = var.node_pool["dev"]["machine_type"]
     disk_size_gb = 10
+    labels = {
+      nodepool = "dev"
+    }
   }
 
   management {
@@ -43,6 +46,9 @@ resource "google_container_node_pool" "prod_node_pool" {
   node_config {
     machine_type = var.node_pool["prod"]["machine_type"]
     disk_size_gb = 10
+    labels = {
+      nodepool = "prod"
+    }
   }
 
   management {
