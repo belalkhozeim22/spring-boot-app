@@ -36,11 +36,11 @@ stages:
             displayName: List deployment directory contents
 
           - task: KubernetesManifest@0
-            displayName: Deploy
+            displayName: dev Deploy
             inputs:
-              action: deploy
+              action: 'deploy'
               kubernetesServiceConnection: 'gke-connection'
               namespace: default
-              manifests: '$(System.DefaultWorkingDirectory)/deployment/deployment-dev.yml'
+              manifests: 'deployment/deployment-dev.yml'
 
 
