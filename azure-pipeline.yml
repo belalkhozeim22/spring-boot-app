@@ -32,7 +32,7 @@ stages:
 
           - script: |
               echo "Listing contents of $(System.DefaultWorkingDirectory)/deployment:"
-              ls $(System.DefaultWorkingDirectory)/deployment
+              ls $(System.DefaultWorkingDirectory)/dev-deployment
             displayName: List deployment directory contents
 
           - task: KubernetesManifest@0
