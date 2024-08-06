@@ -32,6 +32,7 @@ stages:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
+              kubernetesServiceConnection: $(kubernetesServiceConnection)
               namespace: default
               manifests: $(System.ArtifactsDirectory)/deployment/*
               #containers: $(containerRegistry)/$(imageRepository):$(tag)
