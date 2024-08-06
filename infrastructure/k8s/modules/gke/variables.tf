@@ -8,6 +8,11 @@ variable "region" {
   type        = string
 }
 
+variable "location" {
+  description = "GCP Zone"
+  type        = string
+}
+
 variable "cluster_name" {
   description = "The name of the GKE cluster"
   type        = string
@@ -19,4 +24,15 @@ variable "node_pool" {
     node_count   = number
     machine_type = string
   }))
+}
+
+
+variable "network" {
+  description = "The VPC network to host the GKE cluster."
+  type        = string
+}
+
+variable "subnetwork" {
+  description = "The subnetwork to host the GKE cluster."
+  type        = string
 }

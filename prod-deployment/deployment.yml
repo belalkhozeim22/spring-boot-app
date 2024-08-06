@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: your-app-prod
+  name: spring-boot-prod
+  namespace: production
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: your-app
+      app: spring-boot
   template:
     metadata:
       labels:
-        app: your-app
+        app: spring-boot
     spec:
       nodeSelector:
         nodepool: prod
       containers:
-      - name: your-app
-        image: your-docker-image:latest
+      - name: spring-boot
+        image: belalkhozeim22/spring-boot-app-image:latest
         ports:
         - containerPort: 8080

@@ -35,3 +35,15 @@ out/
 
 ### VS Code ###
 .vscode/
+.terraform.tfstate.lock.info
+*.tfvars
+*.tfvars.json
+*.tfstate
+*.tfstate.*
+**/.terraform/*
+*.auto.tfvars
+
+.terraform/
+
+.terraformrc
+

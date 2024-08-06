@@ -5,15 +5,10 @@ terraform {
       version = "~> 4.0"
     }
   }
-
-  backend "gcs" {
-    bucket = "your-terraform-state-bucket"
-    prefix = "terraform/state"
-  }
 }
 
 provider "google" {
-  credentials = file("<path-to-your-service-account-key>.json")
+  #credentials = file("~/Downloads/spring-boot-project-431122-499adffcb48c.json")
   project     = var.project_id
   region      = var.region
 }

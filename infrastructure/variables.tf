@@ -1,23 +1,37 @@
 variable "project_id" {
-  description = "The ID of the GCP project to deploy to"
   type        = string
+  description = "The ID of the GCP project"
 }
 
 variable "region" {
-  description = "The region to deploy the GKE cluster in"
   type        = string
-  default     = "us-central1"
+  description = "The region of the GCP project"
+}
+
+variable "location" {
+  description = "GCP Zone"
+  type        = string
 }
 
 variable "cluster_name" {
-  description = "The name of the GKE cluster"
   type        = string
+  description = "The name of the GKE cluster"
 }
 
 variable "node_pool" {
-  description = "Node pool configurations"
+  description = "The configuration of the node pools"
   type = map(object({
     node_count   = number
     machine_type = string
   }))
+}
+
+variable "network" {
+  type        = string
+  description = "The name of the network"
+}
+
+variable "subnetwork" {
+  type        = string
+  description = "The name of the subnetwork"
 }

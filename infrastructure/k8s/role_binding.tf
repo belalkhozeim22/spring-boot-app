@@ -11,7 +11,7 @@ resource "kubernetes_cluster_role_binding" "pipeline" {
 
   subject {
     kind      = "ServiceAccount"
-    name      = kubernetes_service_account.pipeline.name
-    namespace = kubernetes_service_account.pipeline.namespace
+    name      = kubernetes_service_account.pipeline.azure-pipelines-sa
+    namespace = kubernetes_service_account.pipeline.default
   }
 }
