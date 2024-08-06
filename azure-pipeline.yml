@@ -34,8 +34,8 @@ stages:
               action: deploy
               kubernetesServiceConnection: $(kubernetesServiceConnection)
               kubernetesServiceEndpoint: terraform-gcp-connection
-              namespace: default
-              manifests: $(System.ArtifactsDirectory)/deployment/deployment-dev.yml
+              #namespace: default
+              manifests: deployment/deployment-dev.yml
               #containers: $(containerRegistry)/$(imageRepository):$(tag)
 
 
