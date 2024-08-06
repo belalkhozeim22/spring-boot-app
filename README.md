@@ -12,6 +12,8 @@ Docker: create docker service connection in azure devops.
 Docker Hub: Account for storing Docker images.
 Google Cloud Platform (GCP): create service connection in azure devops.
 Terraform: create service connection in azure devops for infrastructure management.
+GCP VM: Linux VM used as a self-hosted agent to run Azure DevOps pipelines.
+
 
 1. Code Commit & Build
 
