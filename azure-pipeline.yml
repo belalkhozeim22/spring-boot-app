@@ -12,6 +12,7 @@ variables:
   terraformServiceConnection: 'terraform-gcp-connection' #Service connection for GKE
   kubernetesServiceConnection: 'gke-connection' #Same service connection for Kubernetes deployment
   terraformWorkingDirectory: './infrastructure'
+  imagePullSecret: 'app-secret'
 
 stages:
 
@@ -27,26 +28,21 @@ stages:
         deploy:
           steps:
           - checkout: self
-
           - task: KubernetesManifest@0
-            displayName: Create secret
-            inputs: 
-              action: createSecret
-              secretType: dockerRegistry
-              secretName: docker-secret
-              dockerRegistryEndpoint: 'dockerhub-connection'
-              kubernetesServiceConnection: 'gke-connection'
-              namespace: default
-
-          - task: KubernetesManifest@0
-            displayName: Deploy
+            displayName: Create imagePullSecret
             inputs:
-            kubernetesServiceConnection: 'gke-connection'
-            namespace: default
-            manifests: |
-              deployment/deployment-dev.yml
-            imagePullSecrets: |
-              docker-secret
+              action: createSecret
+              secretName: $(imagePullSecret)
+              dockerRegistryEndpoint: $(dockerHubServiceConnection)
+
+          - task: KubernetesManifest@0
+            displayName: Deploy to Kubernetes cluster
+            inputs:
+              action: deploy
+              manifests: |
+                deployment/deployment-dev.yml
+              imagePullSecrets: |
+                $(imagePullSecret)
 
 
 
