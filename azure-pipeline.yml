@@ -28,16 +28,25 @@ stages:
           steps:
           - checkout: self
 
-          - task: KubectlInstaller@0
-            inputs:
-              kubectlVersion: 'latest'
-          
-          - task: KubernetesManifest@1
-            inputs:
-              action: 'deploy'
-              connectionType: 'kubernetesServiceConnection'
+          - task: KubernetesManifest@0
+            displayName: Create secret
+            inputs: 
+              action: createSecret
+              secretType: dockerRegistry
+              secretName: docker-secret
+              dockerRegistryEndpoint: 'dockerhub-connection'
               kubernetesServiceConnection: 'gke-connection'
-              manifests: 'deployment'
+              namespace: default
+
+          - task: KubernetesManifest@0
+            displayName: Deploy
+            inputs:
+            kubernetesServiceConnection: 'gke-connection'
+            namespace: default
+            manifests: |
+              deployment/deployment-dev.yml
+            imagePullSecrets: |
+              docker-secret
 
 
 
