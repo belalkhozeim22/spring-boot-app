@@ -13,6 +13,7 @@ variables:
   kubernetesServiceConnection: 'gke-connection' #Same service connection for Kubernetes deployment
   terraformWorkingDirectory: './infrastructure'
   imagePullSecret: 'app-secret'
+  GCP_KEY_FILE: './SA.json'
 
 stages:
 
@@ -28,6 +29,12 @@ stages:
         deploy:
           steps:
           - checkout: self
+          - script: |
+              echo "Authenticating with Google Cloud..."
+              gcloud auth activate-service-account --key-file=$(GCP_KEY_FILE)
+              gcloud config set project spring-boot-project-431122
+              gcloud container clusters get-credentials deployment-cluster --zone us-central1-a --project spring-boot-project-431122
+            displayName: Authenticate and Get Cluster Credentials
 
           - script: |
               echo "Listing contents of $(System.DefaultWorkingDirectory)/deployment:"

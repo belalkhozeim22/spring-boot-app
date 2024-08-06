@@ -1,0 +1,14 @@
+{
+    "type": "service_account",
+    "project_id": "spring-boot-project-431122",
+    "private_key_id": "bf4f40cb574af9ff60fc567d31aed5c884fc9fb0",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCw2V0Kl3enTtZb\n4brYl5TEamcVYPbuTtKNcxcvxaB0+4yBBf/WRYbWIrKJS6so5QcP4sTxSuSDiYSq\n2yKmYpb1pc02KZzVahIDbsVnzw2fxuLi5eKwqvrUUCdoPIEYschjpGRd3PCYRXr2\nlEmqYLay2huHkrCFkDaF0CvFGOxmzo8ecYOw5XrtTTns9Mg2esh6lrknQSrGbEao\ne9kwGBtFVc7SP1mPRYaRZfHXV2jtzgsU3G5rxJBtmn/PrsH+FmS2TgY/R27QrJAx\nsVsoAhPKEaymkJiq3OUCSGFV8DeNm/kfQTgoMAilEqcP0BJbhLEFdLnp2SgpJrNv\nUerLJ1ZhAgMBAAECggEAU9nD6S03EO9q6KbHIkIAyf5PQQ44FnbuEx4yLLbt5PmO\nPXC8RHqzu105PKrRjTLGXexeB7BEV+/ApQgAzlYpkHBcM+WYFIJV5yXC2H0OTycM\nVZu9F5oCEt+sR5qEdVJ6GnCMHAsRUomDC1307aEsjvGmIupU4wclKt4wmqO+FuHo\nqUUr0kDhnaNt/h7vW41IUIdc4L0HI12OSRZECm9LOC9sSND9EvTLhS1iBsKY0yT6\n/FuIHyYlQgl938hqARTYO0v1yF69/wK/LyaKw7wsRlxnRJxsuawmpAPGRoPoGHOB\nMYrmD5S53gUJUylRxcMHj9cCXh+o0Uopzw8I39/dhwKBgQDU0EVXjExhqQh6yQSj\n0KYxn5oj16hTW0BBkuaInpKuCCMNHSvthuvjOHHibRgaW+MGXPuc5rfOB66G4R1g\nmlVzHfzKsh3DFabc6SDGf1ykEupR8a+clNLcptaGBr0/Mi2798HAeXRZxF5g3Rc/\na6dGM9A5gi7Ks3OBR+j+Gof3ZwKBgQDUvLoOQASw3R0PgLI/C6Am8dwGfKZ06EOj\nc9G8LKM7geCrDsEP83VT9hI5UsEM/DR2v8ZRwlvZm9MNM1c9Hpvja1/iWq9iHw5/\nWkvdIo1jVjatSykRr8zPPgJZkhpLehO+4+IvUt31v2ix+RR0FgouyjkjsyR/Zyah\nGKbd1BAO9wKBgC78xTKtUXgGoE6r75BT0z4FpTzgstOkxC02SBxGFtDCDysoE7jg\nH1kN72c0+ytmult/UDa2YkLlQ02Yiqn3qYI/Tr9aUGPwdeU0u/3XxRac7oulN0b1\nPRFm7Nquxj4b0Ck+bNMYfe4MA2KTrjxcgpRngEQSUE6FDK2wuOrR5M9lAoGAQjuP\n4afkzfvJdG4pEJ/Z+MYMLqjYWkWF6XnBrshm+bvx6s/pI8I0oTNXcSlmmVhcLSx/\n3iyY1CNDjjSR0KGa/y8K5zo8qFvq85N1Ux/SzT6mP0XLP4pwRYWUzbZDIYScaS4h\n2YH/QOea/O4DhDDocrDbIVZA4rmGuVkneqDvbvkCgYBcWFZHSrPrdBkonpPbOkxf\nEPHpsmI/B7HrEkn8zVAMfnu107O/eXjuaL45PpzTKIcsyN4gmotCu945I+YyoclS\nFsovOmLxBoyxQKiqV/+NkZM9Grmfg5M142kVp/qAFO4Rus2GTwd3DZZZ+e8xRg4j\n23cFsTvdQozWIh+aHddtNg==\n-----END PRIVATE KEY-----\n",
+    "client_email": "azure-connection@spring-boot-project-431122.iam.gserviceaccount.com",
+    "client_id": "101285527460233844308",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/azure-connection%40spring-boot-project-431122.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }
+  
