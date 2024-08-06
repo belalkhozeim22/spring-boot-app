@@ -39,7 +39,8 @@ stages:
             displayName: dev Deploy
             inputs:
               action: 'deploy'
-              kubernetesServiceConnection: 'gke-connection'
+              #kubernetesServiceConnection: 'gke-connection'
+              kubernetesServiceConnection: 'development-environment'
               namespace: default
               manifests: 'deployment/deployment-dev.yml'
 
