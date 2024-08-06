@@ -1,0 +1,69 @@
+trigger:
+- main
+
+pool: 'gcp host'
+
+variables:
+  dockerHubServiceConnection: 'dockerhub-connection'
+  imageRepository: 'belalkhozeim22/spring-boot-app-image'
+  dockerfilePath: './Dockerfile'
+  tag: '$(Build.BuildId)'
+  terraformServiceConnection: 'terraform-gcp-connection' #Service connection for GKE
+  kubernetesServiceConnection: 'gke-connection' #Same service connection for Kubernetes deployment
+  terraformWorkingDirectory: './infrastructure'
+  imagePullSecret: 'app-secret'
+  GCP_KEY_FILE: './SA.json'
+
+stages:
+
+
+- stage: Lint
+  jobs:
+  - job: Lint
+    displayName: 'Lint Stage'
+    steps:
+    - script: echo "Linting the code..."
+      displayName: 'Linting the code with Checkstyle'
+
+
+- stage: UnitTest
+  jobs:
+  - job: UnitTest
+    steps:
+    - script: |
+        chmod +x ./gradlew
+        ./gradlew test
+      displayName: 'Running Unit Tests'
+
+
+- stage: SonarQube
+  jobs:
+  - job: SonarQube
+    displayName: 'SonarQube Stage'
+    steps:
+    #- script: ./gradlew sonarqube
+    - script: echo "SonarQube testing"
+      displayName: 'Running SonarQube Analysis'
+
+
+
+- stage: DeployToProduction
+  displayName: Deploy to GKE (Production)
+  jobs:
+  - deployment: DeployToDev
+    displayName: Deploy to Production Namespace
+    environment: 'production-environment'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: self
+          - task: KubernetesManifest@0
+            displayName: prod Deploy
+            inputs:
+              action: 'deploy'
+              #kubernetesServiceConnection: 'gke-connection'
+              kubernetesServiceConnection: 'production-connection'
+              namespace: production
+              manifests: '$(System.DefaultWorkingDirectory)/prod-deployment/*.yml'
+
