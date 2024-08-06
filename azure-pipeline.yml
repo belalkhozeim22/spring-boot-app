@@ -18,6 +18,9 @@ variables:
 stages:
 
 
+
+
+
 - stage: DeployToDevelopment
   displayName: Deploy to GKE (Development)
   jobs:
@@ -29,12 +32,13 @@ stages:
         deploy:
           steps:
           - checkout: self
-
-          - script: |
-              echo "Listing contents of $(System.DefaultWorkingDirectory)/deployment:"
-              ls $(System.DefaultWorkingDirectory)/dev-deployment
-            displayName: List deployment directory contents
-
+          - task: KubernetesManifest@0
+            displayName: Create imagePullSecret
+            inputs:
+              action: createSecret
+              secretName: $(imagePullSecret)
+              namespace: development
+              dockerRegistryEndpoint: 'dockerhub-connection'
           - task: KubernetesManifest@0
             displayName: dev Deploy
             inputs:
@@ -43,5 +47,6 @@ stages:
               kubernetesServiceConnection: 'development-connection'
               namespace: development
               manifests: '$(System.DefaultWorkingDirectory)/dev-deployment/*.yml'
+              imagePullSecrets: $(imagePullSecret)
 
 
