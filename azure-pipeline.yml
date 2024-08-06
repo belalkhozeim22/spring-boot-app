@@ -33,7 +33,8 @@ stages:
             inputs:
               action: createSecret
               secretName: $(imagePullSecret)
-              dockerRegistryEndpoint: $(dockerHubServiceConnection)
+              #dockerRegistryEndpoint: $(dockerHubServiceConnection)
+              kubernetesServiceConnection: $(kubernetesServiceConnection)
 
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
