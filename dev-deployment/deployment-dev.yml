@@ -1,9 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-boot-prod
+  name: spring-boot-dev
+  namespace: development
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: spring-boot
@@ -13,7 +14,7 @@ spec:
         app: spring-boot
     spec:
       nodeSelector:
-        nodepool: prod
+        nodepool: dev
       containers:
       - name: spring-boot
         image: belalkhozeim22/spring-boot-app-image:latest

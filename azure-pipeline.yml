@@ -42,7 +42,6 @@ stages:
               #kubernetesServiceConnection: 'gke-connection'
               kubernetesServiceConnection: 'development-connection'
               namespace: development
-              manifests: '$(System.DefaultWorkingDirectory)/deployment/*.yml'
-
+              manifests: '$(System.DefaultWorkingDirectory)/dev-deployment/*.yml'
 
 
