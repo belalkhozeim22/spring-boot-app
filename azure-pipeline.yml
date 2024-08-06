@@ -29,21 +29,12 @@ stages:
           steps:
           - checkout: self
           - task: KubernetesManifest@0
-            displayName: Create imagePullSecret
-            inputs:
-              action: createSecret
-              secretName: $(imagePullSecret)
-              #dockerRegistryEndpoint: $(dockerHubServiceConnection)
-              kubernetesServiceConnection: $(kubernetesServiceConnection)
-
-          - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              manifests: |
-                deployment/deployment-dev.yml
-              imagePullSecrets: |
-                $(imagePullSecret)
+              namespace: default
+              manifests: $(System.ArtifactsDirectory)/deployment/*
+              #containers: $(containerRegistry)/$(imageRepository):$(tag)
 
 
 
