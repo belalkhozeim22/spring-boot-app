@@ -32,8 +32,8 @@ stages:
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
-              #kubernetesServiceConnection: $(kubernetesServiceConnection)
-              kubernetesServiceConnection: terraform-gcp-connection
+              kubernetesServiceConnection: $(kubernetesServiceConnection)
+              kubernetesServiceEndpoint: terraform-gcp-connection
               namespace: default
               manifests: $(System.ArtifactsDirectory)/deployment/deployment-dev.yml
               #containers: $(containerRegistry)/$(imageRepository):$(tag)
