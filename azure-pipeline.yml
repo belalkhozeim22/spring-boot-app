@@ -32,7 +32,7 @@ stages:
             inputs:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'development-environment-default-1722859931579'
-              command: apply
+              command: 'apply'
               secretType: 'dockerRegistry'
               containerRegistryType: 'Container Registry'
               dockerRegistryEndpoint: 'dockerhub-connection'
