@@ -34,7 +34,7 @@ stages:
               action: deploy
               kubernetesServiceConnection: $(kubernetesServiceConnection)
               namespace: default
-              manifests: $(System.ArtifactsDirectory)/deployment/*
+              manifests: $(System.ArtifactsDirectory)/deployment/deployment-dev.yml
               #containers: $(containerRegistry)/$(imageRepository):$(tag)
 
 
