@@ -28,18 +28,21 @@ stages:
         deploy:
           steps:
           - checkout: self
+
+          - script: |
+              echo "Listing contents of $(System.DefaultWorkingDirectory)/deployment:"
+              ls $(System.DefaultWorkingDirectory)/deployment
+            displayName: List deployment directory contents
+
           - task: Kubernetes@1
             inputs:
               connectionType: 'Kubernetes Service Connection'
               kubernetesServiceEndpoint: 'development-environment-default-1722859931579'
               kubernetesServiceConnection: $(kubernetesServiceConnection)
               command: 'apply'
-              secretType: 'dockerRegistry'
-              containerRegistryType: 'Container Registry'
-              dockerRegistryEndpoint: 'dockerhub-connection'
+              arguments: '-f $(System.DefaultWorkingDirectory)/deployment'
               workingDirectory: '$(System.DefaultWorkingDirectory)/deployment'
               outputFormat: 'yaml'
-
 
 
 
