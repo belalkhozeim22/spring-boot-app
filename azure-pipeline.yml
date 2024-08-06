@@ -29,31 +29,18 @@ stages:
         deploy:
           steps:
           - checkout: self
-          - script: |
-              echo "Authenticating with Google Cloud..."
-              gcloud auth activate-service-account --key-file=$(GCP_KEY_FILE)
-              gcloud config set project spring-boot-project-431122
-              gcloud container clusters get-credentials deployment-cluster --zone us-central1-a --project spring-boot-project-431122
-            displayName: Authenticate and Get Cluster Credentials
 
           - script: |
               echo "Listing contents of $(System.DefaultWorkingDirectory)/deployment:"
               ls $(System.DefaultWorkingDirectory)/deployment
             displayName: List deployment directory contents
 
-          - task: Kubernetes@1
+          - task: KubernetesManifest@0
+            displayName: Deploy
             inputs:
-              connectionType: 'Kubernetes Service Connection'
-              kubernetesServiceEndpoint: 'development-environment-default-1722859931579'
-              kubernetesServiceConnection: $(kubernetesServiceConnection)
-              command: 'apply'
-              arguments: '-f $(System.DefaultWorkingDirectory)/deployment'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/deployment'
-              outputFormat: 'yaml'
-
-
-
-
-
+              action: deploy
+              kubernetesServiceConnection: 'gke-connection'
+              namespace: default
+              manifests: '$(System.DefaultWorkingDirectory)/deployment/deployment-dev.yaml'
 
 
