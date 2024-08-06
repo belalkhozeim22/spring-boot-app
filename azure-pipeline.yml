@@ -28,15 +28,16 @@ stages:
         deploy:
           steps:
           - checkout: self
-          - task: KubernetesManifest@0
-            displayName: Deploy to Kubernetes cluster
+          - task: Kubernetes@1
             inputs:
-              action: deploy
-              kubernetesServiceConnection: $(kubernetesServiceConnection)
-              kubernetesServiceEndpoint: terraform-gcp-connection
-              #namespace: default
-              manifests: deployment/deployment-dev.yml
-              #containers: $(containerRegistry)/$(imageRepository):$(tag)
+              connectionType: 'Kubernetes Service Connection'
+              kubernetesServiceEndpoint: 'development-environment-default-1722859931579'
+              command: apply
+              secretType: 'dockerRegistry'
+              containerRegistryType: 'Container Registry'
+              dockerRegistryEndpoint: 'dockerhub-connection'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/deployment'
+              outputFormat: 'yaml'
 
 
 
