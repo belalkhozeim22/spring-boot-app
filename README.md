@@ -64,3 +64,44 @@ Approvals: Both pipelines include approval stages.
 
 5. Conclusion
 This document provides a comprehensive overview of the automated deployment pipeline for a Spring Boot application. By following these steps, teams can achieve a streamlined and reliable deployment process using modern DevOps practices and tools.
+
+Files and Directories
+azure-pipeline.yml:
+
+Purpose: Defines the CI/CD pipeline stages and tasks in Azure DevOps.
+Dockerfile:
+
+Purpose: Instructions to build the Docker image for the Spring Boot application.
+infrastructure/:
+
+Purpose: Contains Terraform configurations and Kubernetes manifests.
+
+Subdirectories:
+
+azure-pipeline.yml: Orchestrates build, test, and deployment stages in the pipeline.
+
+Dockerfile: Specifies how to package the application into a Docker container.
+
+
+infrastructure/
+gke/
+main.tf: Main Terraform configuration file.
+outputs.tf: Outputs from Terraform configurations.
+providers.tf: Providers configuration.
+variables.tf: Variables used in Terraform configurations.
+versions.tf: Terraform version constraints.
+modules/
+main.tf: Module configuration for GKE.
+
+
+namespaces/: Namespace configurations.
+service-accounts/: Service account configurations.
+role-bindings/: Role binding configurations.
+dev-deployment/: Deployment manifests for the development environment.
+deployment-dev.yml: Deployment manifest for the development environment.
+prod-deployment/: Deployment manifests for the production environment.
+deployment-prod.yml: Deployment manifest for the production environment.
+ingress.yml: Ingress configuration for routing traffic to your services.
+service.yml: Service configuration for exposing your application within the cluster.
+
+This structure ensures a smooth CI/CD process and organized deployment for both development and production environments.
